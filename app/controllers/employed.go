@@ -3,6 +3,7 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"revelcrud/app/models"
@@ -23,6 +24,50 @@ type trds struct {
 	Data models.Employed `json:"data"`
 }
 
+func (c Employed) New() revel.Result {
+	return c.Render()
+}
+
+func (c Employed) SaveEmployed() revel.Result {
+	var err error
+	id := c.Params.Get("id")
+	name := c.Params.Get("nameemployed")
+	email := c.Params.Get("email")
+	phone := c.Params.Get("phone")
+	address := c.Params.Get("address")
+	data := models.Employed{
+		Id:           id,
+		NameEmployed: name,
+		Email:        email,
+		Phone:        phone,
+		Address:      address,
+	}
+	b, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		panic(err)
+	}
+	urls := "http://127.0.0.1:8082/api/v1/e/employed/"
+	res, err := http.Post(urls, "application/x-www-form-urlencoded", bytes.NewBuffer(b))
+	if err != nil {
+		panic(err)
+	}
+	if res.StatusCode != http.StatusOK {
+		panic(res.StatusCode)
+	}
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	var rd trds
+	if err := json.Unmarshal(body, &rd); err != nil {
+		panic(err)
+	}
+	if rd.Err != "" {
+		panic(err)
+	}
+	return c.Redirect(routes.Employed.Index())
+}
 func (c Employed) Index() revel.Result {
 	urls := "http://127.0.0.1:8082/api/v1/e/employed/"
 	res, err := http.Get(urls)
@@ -78,46 +123,6 @@ func (c Employed) Employed() revel.Result {
 	return c.Render(employed)
 }
 
-func (c Employed) SaveEmployed() revel.Result {
-	var err error
-	id := c.Params.Get("id")
-	name := c.Params.Get("nameemployed")
-	email := c.Params.Get("email")
-	phone := c.Params.Get("phone")
-	address := c.Params.Get("address")
-	data := models.Employed{
-		Id:           id,
-		NameEmployed: name,
-		Email:        email,
-		Phone:        phone,
-		Address:      address,
-	}
-	b, err := json.MarshalIndent(data, "", " ")
-	if err != nil {
-		panic(err)
-	}
-	urls := "http://127.0.0.1:8082/api/v1/e/employed/"
-	res, err := http.Post(urls, "application/x-www-form-urlencoded", bytes.NewBuffer(b))
-	if err != nil {
-		panic(err)
-	}
-	if res.StatusCode != http.StatusOK {
-		panic(res.StatusCode)
-	}
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err)
-	}
-	var rd trds
-	if err := json.Unmarshal(body, &rd); err != nil {
-		panic(err)
-	}
-	if rd.Err != "" {
-		panic(err)
-	}
-	return c.Redirect(routes.Employed.Index())
-}
 func (c Employed) EditEmployed() revel.Result {
 	var err error
 	id := c.Params.Get("id")
@@ -132,6 +137,7 @@ func (c Employed) EditEmployed() revel.Result {
 		Phone:        phone,
 		Address:      address,
 	}
+	fmt.Println(data)
 	b, err := json.MarshalIndent(data, "", " ")
 	if err != nil {
 	}

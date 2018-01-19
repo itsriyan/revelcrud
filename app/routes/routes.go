@@ -8,6 +8,20 @@ type tEmployed struct {}
 var Employed tEmployed
 
 
+func (_ tEmployed) New(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Employed.New", args).URL
+}
+
+func (_ tEmployed) SaveEmployed(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Employed.SaveEmployed", args).URL
+}
+
 func (_ tEmployed) Index(
 		) string {
 	args := make(map[string]string)
@@ -20,13 +34,6 @@ func (_ tEmployed) Employed(
 	args := make(map[string]string)
 	
 	return revel.MainRouter.Reverse("Employed.Employed", args).URL
-}
-
-func (_ tEmployed) SaveEmployed(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("Employed.SaveEmployed", args).URL
 }
 
 func (_ tEmployed) EditEmployed(

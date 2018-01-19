@@ -5,7 +5,7 @@ Routes
 module:testrunner
 
 GET     /                                       Employed.Index
-GET     /employednew.html                       Employed.Employed
+GET     /new.html                       Employed.New
 GET     /employed.html                          Employed.Employed
 POST 	  /save                                   Employed.SaveEmployed
 POST     /edit                                   Employed.EditEmployed

@@ -32,11 +32,27 @@ func main() {
 	revel.RegisterController((*controllers.Employed)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
+				Name: "New",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+					28: []string{ 
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "SaveEmployed",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			&revel.MethodType{
 				Name: "Index",
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					48: []string{ 
+					93: []string{ 
 						"employeds",
 					},
 				},
@@ -46,19 +62,12 @@ func main() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					55: []string{ 
+					100: []string{ 
 						"employed",
 					},
-					78: []string{ 
+					123: []string{ 
 						"employed",
 					},
-				},
-			},
-			&revel.MethodType{
-				Name: "SaveEmployed",
-				Args: []*revel.MethodArg{ 
-				},
-				RenderArgNames: map[int][]string{ 
 				},
 			},
 			&revel.MethodType{
